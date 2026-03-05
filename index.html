@@ -1,37 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Drag and Drop File Upload</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Box</title>
+    <style>
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #ccc;
+            margin: 20px;
+            padding: 10px;
+            position: relative;
+        }
+        .product {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #000;
+            margin: 10px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            line-height: 80px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Upload Files</h1>
-    <div id="drop_zone" style="border: 2px dashed #0087F7; width: 300px; height: 200px;">
-        Drag & drop files here
-    </div>
+    <h1>Drag and Drop Gift Box</h1>
+    <div class="product" draggable="true">Product 1</div>
+    <div class="product" draggable="true">Product 2</div>
+    <div class="product" draggable="true">Product 3</div>
+    <div class="gift-box" id="giftBox">Drop here</div>
+
     <script>
-        var dropZone = document.getElementById('drop_zone');
+        const products = document.querySelectorAll('.product');
+        const giftBox = document.getElementById('giftBox');
 
-        dropZone.addEventListener('dragover', function(e) {
+        products.forEach(product => {
+            product.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.textContent);
+            });
+        });
+
+        giftBox.addEventListener('dragover', (e) => {
             e.preventDefault();
-            dropZone.style.backgroundColor = '#e0e0e0';
         });
 
-        dropZone.addEventListener('dragleave', function(e) {
-            dropZone.style.backgroundColor = ''; 
-        });
-
-        dropZone.addEventListener('drop', function(e) {
+        giftBox.addEventListener('drop', (e) => {
             e.preventDefault();
-            dropZone.style.backgroundColor = '';
-            var files = e.dataTransfer.files;
-            handleFiles(files);
+            const productName = e.dataTransfer.getData('text/plain');
+            const newProduct = document.createElement('div');
+            newProduct.textContent = productName;
+            newProduct.className = 'product';
+            giftBox.appendChild(newProduct);
         });
-
-        function handleFiles(files) {
-            for (var i = 0; i < files.length; i++) {
-                console.log('File uploaded: ' + files[i].name);
-            }
-        }
     </script>
 </body>
 </html>
