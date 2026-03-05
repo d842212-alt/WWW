@@ -1,111 +1,36 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>喜餅禮盒客製化模擬器</title>
-    <style>
-        body { font-family: "Microsoft JhengHei", sans-serif; background: #f9f4f2; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        h2 { color: #8d6e63; }
-        
-        .container { display: flex; gap: 40px; margin-top: 20px; }
-        
-        /* 禮盒樣式 */
-        .gift-box { 
-            width: 450px; height: 450px; background: #fff; border: 15px solid #d7ccc8; 
-            display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-            gap: 10px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-        .slot { 
-            background: #fdfaf9; border: 1px dashed #d7ccc8; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer;
-            transition: background 0.3s; overflow: hidden;
-        }
-        .slot:hover { background: #efebe9; }
-        .slot img { width: 85%; height: 85%; object-fit: contain; animation: popIn 0.3s ease; }
-        
-        /* 選單樣式 */
-        .menu { width: 300px; }
-        .product-item { 
-            background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px;
-            display: flex; align-items: center; cursor: pointer; border: 1px solid #eee;
-            transition: transform 0.2s;
-        }
-        .product-item:hover { transform: translateX(10px); border-color: #8d6e63; }
-        .product-thumb { width: 50px; height: 50px; background: #eee; margin-right: 15px; border-radius: 4px; }
-        
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .controls { margin-top: 30px; }
-        button { padding: 10px 20px; background: #8d6e63; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #6d4c41; }
-    </style>
+    <title>Drag and Drop File Upload</title>
 </head>
 <body>
-
-    <h2>專屬你的九宮格喜餅禮盒</h2>
-    <p>請先點選右側甜點，再點擊左側禮盒空格放入。</p>
-
-    <div class="container">
-        <div class="gift-box" id="giftBox">
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-            <div class="slot" onclick="placeItem(this)"></div>
-        </div>
-
-        <div class="menu">
-            <div class="product-item" onclick="selectProduct('抹茶曲奇', 'https://via.placeholder.com/150/74c69d/ffffff?text=Matcha')">
-                <div class="product-thumb" style="background:#74c69d"></div>
-                <span>抹茶曲奇</span>
-            </div>
-            <div class="product-item" onclick="selectProduct('草莓甜甜圈', 'https://via.placeholder.com/150/ffb3c1/ffffff?text=Berry')">
-                <div class="product-thumb" style="background:#ffb3c1"></div>
-                <span>草莓甜甜圈</span>
-            </div>
-            <div class="product-item" onclick="selectProduct('黑巧克力餅', 'https://via.placeholder.com/150/4e342e/ffffff?text=Choco')">
-                <div class="product-thumb" style="background:#4e342e"></div>
-                <span>黑巧克力餅</span>
-            </div>
-            <p id="status">目前選取：尚未選擇</p>
-        </div>
+    <h1>Upload Files</h1>
+    <div id="drop_zone" style="border: 2px dashed #0087F7; width: 300px; height: 200px;">
+        Drag & drop files here
     </div>
-
-    <div class="controls">
-        <button onclick="resetBox()">清空重新配置</button>
-    </div>
-
     <script>
-        let currentSelectedImg = '';
-        let currentSelectedName = '';
+        var dropZone = document.getElementById('drop_zone');
 
-        function selectProduct(name, img) {
-            currentSelectedImg = img;
-            currentSelectedName = name;
-            document.getElementById('status').innerText = '目前選取：' + name;
-        }
+        dropZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#e0e0e0';
+        });
 
-        function placeItem(slot) {
-            if (!currentSelectedImg) {
-                alert('請先從右側選擇一個甜點！');
-                return;
+        dropZone.addEventListener('dragleave', function(e) {
+            dropZone.style.backgroundColor = ''; 
+        });
+
+        dropZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '';
+            var files = e.dataTransfer.files;
+            handleFiles(files);
+        });
+
+        function handleFiles(files) {
+            for (var i = 0; i < files.length; i++) {
+                console.log('File uploaded: ' + files[i].name);
             }
-            // 如果已經有圖片，點擊則移除或替換
-            slot.innerHTML = `<img src="${currentSelectedImg}" alt="${currentSelectedName}">`;
-        }
-
-        function resetBox() {
-            const slots = document.querySelectorAll('.slot');
-            slots.forEach(slot => slot.innerHTML = '');
-            currentSelectedImg = '';
-            document.getElementById('status').innerText = '目前選取：尚未選擇';
         }
     </script>
 </body>
