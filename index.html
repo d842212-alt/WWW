@@ -1,186 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Box Simulator</title>
+    <title>禮物盒模擬器</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            display: flex;
-            gap: 40px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .left-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
         #grid {
             display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin: 20px;
         }
-        .grid-item {
-            width: 100px;
-            height: 100px;
-            border: 2px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .item {
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
             background-color: #f9f9f9;
-            cursor: pointer;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            padding: 5px;
-            box-sizing: border-box;
-            transition: all 0.3s;
-        }
-        .grid-item:hover {
-            background-color: #e8f4f8;
-            border-color: #66b3d6;
-        }
-        .grid-item:not(:empty) {
-            background-color: #d1ecf1;
-            border-color: #66b3d6;
-        }
-        .right-section {
-            display: flex;
-            flex-direction: column;
-            width: 200px;
-        }
-        .menu-item {
-            padding: 12px;
-            border: 2px solid #ddd;
-            margin-bottom: 10px;
-            cursor: pointer;
-            text-align: center;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        .menu-item:hover {
-            background-color: #f0f0f0;
-            border-color: #999;
-        }
-        .menu-item.selected {
-            background-color: #d1ecf1;
-            border-color: #66b3d6;
-            color: #004085;
-        }
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: auto;
-        }
-        button {
-            padding: 12px 20px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        .clear-all-btn {
-            background-color: #dc3545;
-        }
-        .clear-all-btn:hover {
-            background-color: #c82333;
-            transform: scale(1.05);
-        }
-        .reset-btn {
-            background-color: #6c757d;
-        }
-        .reset-btn:hover {
-            background-color: #5a6268;
-            transform: scale(1.05);
-        }
-        h2 {
-            margin-top: 0;
-            color: #333;
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="left-section">
-            <h2>禮盒配置</h2>
-            <div id="grid">
-                <div class="grid-item" data-index="0"></div>
-                <div class="grid-item" data-index="1"></div>
-                <div class="grid-item" data-index="2"></div>
-                <div class="grid-item" data-index="3"></div>
-                <div class="grid-item" data-index="4"></div>
-                <div class="grid-item" data-index="5"></div>
-                <div class="grid-item" data-index="6"></div>
-                <div class="grid-item" data-index="7"></div>
-                <div class="grid-item" data-index="8"></div>
-            </div>
-            <div class="button-group">
-                <button class="clear-all-btn" onclick="clearAll()">🗑️ 一鍵清除</button>
-                <button class="reset-btn" onclick="resetSelection()">↺ 重置選擇</button>
-            </div>
-        </div>
-        <div class="right-section">
-            <h2>選擇品項</h2>
-            <div class="menu-item" data-product="鳳梨貓掌酥">🍍 鳳梨貓掌酥</div>
-            <div class="menu-item" data-product="蔓越莓貓掌酥">🫐 蔓越莓貓掌酥</div>
-            <div class="menu-item" data-product="鐵觀音抹茶貓掌酥">🍵 鐵觀音抹茶貓掌酥</div>
-        </div>
+    <h1>禮物盒模擬器</h1>
+    <div id="grid">
+        <div class="item">鳳梨貓掌酥</div>
+        <div class="item">蔓越莓貓掌酥</div>
+        <div class="item">鐵觀音抹茶貓掌酥</div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
     </div>
+    <button id="clear-all">🗑️ 一鍵清除</button>
     <script>
-        let selectedProduct = '';
-        const menuItems = document.querySelectorAll('.menu-item');
-        const gridItems = document.querySelectorAll('.grid-item');
-
-        menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                menuItems.forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
-                selectedProduct = item.getAttribute('data-product');
+        document.getElementById('clear-all').onclick = function() {
+            const items = document.querySelectorAll('.item');
+            items.forEach((item) => {
+                item.innerHTML = '';
             });
-        });
-
-        gridItems.forEach(item => {
-            item.addEventListener('click', () => {
-                if (selectedProduct) {
-                    item.textContent = selectedProduct;
-                }
-            });
-        });
-
-        function clearAll() {
-            gridItems.forEach(item => {
-                item.textContent = '';
-            });
-            alert('✨ 已清除所有配置！');
-        }
-
-        function resetSelection() {
-            menuItems.forEach(item => {
-                item.classList.remove('selected');
-            });
-            selectedProduct = '';
-            alert('已重置選擇！');
-        }
+        };
     </script>
 </body>
 </html>
