@@ -1,45 +1,63 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>禮物盒模擬器</title>
+    <title>Gift Box Layout</title>
     <style>
-        #grid {
+        .container {
+            display: flex;
+        }
+        .left-side {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px;
+            grid-gap: 10px;
+            width: 50%;
         }
-        .item {
-            border: 1px solid #ccc;
-            padding: 20px;
-            text-align: center;
-            background-color: #f9f9f9;
+        .right-side {
+            position: relative;
+            width: 50%;
+        }
+        .overlapping-item {
+            position: absolute;
+        }
+        .top-right-item {
+            top: 10px;
+            right: 10px;
+        }
+        .bottom-right-item {
+            bottom: 10px;
+            right: 10px;
+        }
+        .button {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>禮物盒模擬器</h1>
-    <div id="grid">
-        <div class="item">鳳梨貓掌酥</div>
-        <div class="item">蔓越莓貓掌酥</div>
-        <div class="item">鐵觀音抹茶貓掌酥</div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
-        <div class="item"></div>
+    
+    <div class="container">
+        <div class="left-side">
+            <div>鳳梨貓掌酥</div>
+            <div>蔓越莓貓掌酥</div>
+            <div>鐵觀音貓掌酥</div>
+            <div>鳳梨貓掌酥</div>
+            <div>蔓越莓貓掌酥</div>
+            <div>鐵觀音貓掌酥</div>
+        </div>
+        <div class="right-side">
+            <div class="overlapping-item top-right-item">
+                <div>Top Right Item 1</div>
+                <div>Top Right Item 2</div>
+            </div>
+            <div class="overlapping-item bottom-right-item">
+                <div>Bottom Right Item 1</div>
+                <div>Bottom Right Item 2</div>
+            </div>
+        </div>
     </div>
-    <button id="clear-all">🗑️ 一鍵清除</button>
-    <script>
-        document.getElementById('clear-all').onclick = function() {
-            const items = document.querySelectorAll('.item');
-            items.forEach((item) => {
-                item.innerHTML = '';
-            });
-        };
-    </script>
+
+    <button class="button">Clear All</button>
+    
 </body>
 </html>
