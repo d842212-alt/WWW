@@ -4,17 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gift Box Simulator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            font-family: Arial, sans-serif;
+        }
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 10px;
+            margin-right: 20px;
+        }
+        .grid-item {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            cursor: pointer;
+        }
+        #menu {
+            display: flex;
+            flex-direction: column;
+            width: 200px;
+        }
+        .menu-item {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Gift Box Simulator</h1>
-    <h2>Our Cat Paw Pastry Products</h2>
-    <ul>
-        <li>鳳梨貓掌酥 (Pineapple Cat Paw Pastry)</li>
-        <li>蔓越莓貓掌酥 (Cranberry Cat Paw Pastry)</li>
-        <li>鐵觀音抹茶貓掌酥 (Iron Buddha Matcha Cat Paw Pastry)</li>
-    </ul>
-    <footer>
-        <p>Thank you for visiting our simulator!</p>
-    </footer>
+    <div id="grid">
+        <div class="grid-item" data-index="0"></div>
+        <div class="grid-item" data-index="1"></div>
+        <div class="grid-item" data-index="2"></div>
+        <div class="grid-item" data-index="3"></div>
+        <div class="grid-item" data-index="4"></div>
+        <div class="grid-item" data-index="5"></div>
+        <div class="grid-item" data-index="6"></div>
+        <div class="grid-item" data-index="7"></div>
+        <div class="grid-item" data-index="8"></div>
+    </div>
+    <div id="menu">
+        <div class="menu-item" data-product="鳳梨貓掌酥">鳳梨貓掌酥</div>
+        <div class="menu-item" data-product="蔓越莓貓掌酥">蔓越莓貓掌酥</div>
+        <div class="menu-item" data-product="鐵觀音抹茶貓掌酥">鐵觀音抹茶貓掌酥</div>
+    </div>
+    <script>
+        let selectedProduct = '';
+        const menuItems = document.querySelectorAll('.menu-item');
+        const gridItems = document.querySelectorAll('.grid-item');
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                selectedProduct = item.getAttribute('data-product');
+                menuItems.forEach(i => i.style.backgroundColor = '');
+                item.style.backgroundColor = '#d1ecf1';
+            });
+        });
+
+        gridItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (selectedProduct) {
+                    item.textContent = selectedProduct;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
