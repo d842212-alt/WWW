@@ -3,61 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Box Layout</title>
+    <title>L-Shaped Gift Box Layout</title>
     <style>
-        .container {
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
         }
-        .left-side {
+        .left-grid {
+            width: 60%;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-gap: 10px;
-            width: 50%;
+            gap: 15px;
         }
-        .right-side {
+        .right-grid {
+            width: 35%;
             position: relative;
-            width: 50%;
+        }
+        .item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         .overlapping-item {
             position: absolute;
+            width: 45%;
+            background-color: #ffcccc;
         }
-        .top-right-item {
-            top: 10px;
-            right: 10px;
+        .top-item {
+            top: 0;
+            left: 0;
         }
-        .bottom-right-item {
-            bottom: 10px;
-            right: 10px;
+        .bottom-item {
+            bottom: 0;
+            left: 0;
         }
-        .button {
-            margin-top: 20px;
+        button {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    
-    <div class="container">
-        <div class="left-side">
-            <div>鳳梨貓掌酥</div>
-            <div>蔓越莓貓掌酥</div>
-            <div>鐵觀音貓掌酥</div>
-            <div>鳳梨貓掌酥</div>
-            <div>蔓越莓貓掌酥</div>
-            <div>鐵觀音貓掌酥</div>
-        </div>
-        <div class="right-side">
-            <div class="overlapping-item top-right-item">
-                <div>Top Right Item 1</div>
-                <div>Top Right Item 2</div>
-            </div>
-            <div class="overlapping-item bottom-right-item">
-                <div>Bottom Right Item 1</div>
-                <div>Bottom Right Item 2</div>
-            </div>
-        </div>
+    <div class="left-grid">
+        <div class="item">Item 1</div>
+        <div class="item">Item 2</div>
+        <div class="item">Item 3</div>
+        <div class="item">Item 4</div>
+        <div class="item">Item 5</div>
+        <div class="item">Item 6</div>
     </div>
-
-    <button class="button">Clear All</button>
+    <div class="right-grid">
+        <div class="overlapping-item top-item">Item A</div>
+        <div class="overlapping-item bottom-item">Item B</div>
+    </div>
+    <div>
+        <button id="clearButton">Clear All</button>
+    </div>
     
+    <script>
+        document.getElementById('clearButton').addEventListener('click', function() {
+            alert('All items cleared!');
+            // Code to clear items could go here
+        });
+    </script>
 </body>
 </html>
