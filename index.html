@@ -3,56 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gift Box</title>
+    <title>Gift Box Simulator</title>
     <style>
-        .gift-box {
-            width: 200px;
-            height: 200px;
+        #drop-zone {
+            width: 300px;
+            height: 300px;
             border: 2px dashed #ccc;
-            margin: 20px;
-            padding: 10px;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .product {
-            width: 80px;
-            height: 80px;
-            border: 1px solid #000;
-            margin: 10px;
-            cursor: pointer;
-            display: inline-block;
-            text-align: center;
-            line-height: 80px;
+        #gift-box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            cursor: grab;
         }
     </style>
 </head>
 <body>
-    <h1>Drag and Drop Gift Box</h1>
-    <div class="product" draggable="true">Product 1</div>
-    <div class="product" draggable="true">Product 2</div>
-    <div class="product" draggable="true">Product 3</div>
-    <div class="gift-box" id="giftBox">Drop here</div>
+    <div id="drop-zone">Drop Here</div>
+    <div id="gift-box" draggable="true">🎁</div>
 
     <script>
-        const products = document.querySelectorAll('.product');
-        const giftBox = document.getElementById('giftBox');
+        const dropZone = document.getElementById('drop-zone');
+        const giftBox = document.getElementById('gift-box');
 
-        products.forEach(product => {
-            product.addEventListener('dragstart', (e) => {
-                e.dataTransfer.setData('text/plain', e.target.textContent);
-            });
+        giftBox.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', 'Gift Box');
+            setTimeout(() => {
+                giftBox.style.display = 'none';
+            }, 0);
         });
 
-        giftBox.addEventListener('dragover', (e) => {
-            e.preventDefault();
+        giftBox.addEventListener('dragend', () => {
+            giftBox.style.display = 'block';
         });
 
-        giftBox.addEventListener('drop', (e) => {
+        dropZone.addEventListener('dragover', (e) => {
             e.preventDefault();
-            const productName = e.dataTransfer.getData('text/plain');
-            const newProduct = document.createElement('div');
-            newProduct.textContent = productName;
-            newProduct.className = 'product';
-            giftBox.appendChild(newProduct);
+            dropZone.style.borderColor = 'green';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = '#ccc';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#ccc';
+            alert('Gift Box Dropped!');
         });
     </script>
 </body>
